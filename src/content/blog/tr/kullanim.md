@@ -67,4 +67,5 @@ Bu basit ayar sayesinde, okuyucularınız diledikleri anda hiçbir içerik kayb�
 
 Artık yazılarınızı nasıl düzenleyeceğinizi ve yayınlayacağınızı biliyorsunuz. Bir sonraki aşamada tasarım şablonlarını, CSS renk tonlarını ve sosyal medya ağınızı nasıl güncelleyeceğinizi öğrenebilirsiniz.
 
-Son rehberimize geçiş yapın: **[Zahit Teması: Gelişmiş Özelleştirme ve Stil Ayarları](/tr/blog/ozellestirme/)**
+Son rehberimize geçiş yapın: **[Zahit Teması: Gelişmiş Özelleştirme ve Stil Ayarları](/blog/ozellestirme/)**
+

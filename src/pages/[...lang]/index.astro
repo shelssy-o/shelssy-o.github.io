@@ -2,28 +2,30 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Profile from '../../components/Profile.astro';
 import { getCollection } from 'astro:content';
-import { ui } from '../../i18n/ui';
+import { ui, defaultLang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import type { CollectionEntry } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export function getStaticPaths() {
   return Object.keys(ui).map((lang) => {
-    return { params: { lang } };
+    return { params: { lang: lang === defaultLang ? undefined : lang } };
   });
 }
 
 const { lang } = Astro.params;
-const t = useTranslations(lang as keyof typeof ui);
+const currentLang = lang || defaultLang;
+const t = useTranslations(currentLang as keyof typeof ui);
 
 const pageTitle = `Zahit | ${t('home.title')}`;
 const pageDescription = t('home.subtitle');
 
 const posts: CollectionEntry<'blog'>[] = await getCollection('blog', (post: CollectionEntry<'blog'>) => {
-  return post.id.startsWith(`${lang}/`);
+  return post.id.startsWith(`${currentLang}/`);
 });
 posts.sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const archiveLabel = lang === 'tr' ? 'Tüm yazılar →' : 'All posts →';
+const archiveLabel = currentLang === 'tr' ? 'Tüm yazılar →' : 'All posts →';
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
@@ -39,13 +41,13 @@ const archiveLabel = lang === 'tr' ? 'Tüm yazılar →' : 'All posts →';
 					<ul>
 						{
 							posts.map((post) => {
-								const slugWithoutLang = post.id.replace(`${lang}/`, '');
+								const slugWithoutLang = post.id.replace(`${currentLang}/`, '');
 								return (
 									<li>
-										<a href={`/${lang}/blog/${slugWithoutLang}/`}>
+										<a href={getRelativeLocaleUrl(currentLang, `blog/${slugWithoutLang}`)}>
 											<span class="title">{post.data.title}</span>
 											<span class="date">
-												{post.data.pubDate.toLocaleDateString(lang, {
+												{post.data.pubDate.toLocaleDateString(currentLang, {
 													year: 'numeric',
 													month: 'long',
 													day: 'numeric',
@@ -58,13 +60,14 @@ const archiveLabel = lang === 'tr' ? 'Tüm yazılar →' : 'All posts →';
 						}
 					</ul>
 					<div class="fade-more">
-						<a href={`/${lang}/archive/`} class="more-link">{archiveLabel}</a>
+						<a href={getRelativeLocaleUrl(currentLang, 'archive')} class="more-link">{archiveLabel}</a>
 					</div>
 				</div>
 			</section>
 		</div>
 	</div>
 </BaseLayout>
+
 
 <style>
 	.home-layout {

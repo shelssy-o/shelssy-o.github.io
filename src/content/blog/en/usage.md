@@ -50,7 +50,8 @@ Zahit implements an advanced routing system inside the header language navigatio
 Instead, it searches through your blog collection to find a Turkish post that shares the exact same `translationKey` value.
 
 - **If an identical key is found:** It seamlessly redirects the reader directly to the Turkish translation page.
-- **If no matching key is found:** It gracefully redirects the reader to the `/tr/archive/` page.
+- **If no matching key is found:** It gracefully redirects the reader to the `/archive/` page.
+
 
 ### Best Practice Example:
 

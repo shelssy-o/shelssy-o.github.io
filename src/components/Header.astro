@@ -4,6 +4,7 @@ import { languages } from '../i18n/ui';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import { SITE_CONFIG } from '../config';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -25,13 +26,13 @@ if (isPost && route) {
 <header class="site-header">
 	<nav>
 		<div class="logo">
-			<a href={`/${lang}/`}>{SITE_CONFIG.title}</a>
+			<a href={getRelativeLocaleUrl(lang, '')}>{SITE_CONFIG.title}</a>
 		</div>
 		<div class="links">
-			<a href={`/${lang}/`}>{t('nav.home')}</a>
-			<a href={`/${lang}/archive/`}>{t('nav.archive')}</a>
-			<a href={`/${lang}/tags/`}>{t('nav.tags')}</a>
-			<a href={`/${lang}/about/`}>{t('nav.about')}</a>
+			<a href={getRelativeLocaleUrl(lang, '')}>{t('nav.home')}</a>
+			<a href={getRelativeLocaleUrl(lang, 'archive')}>{t('nav.archive')}</a>
+			<a href={getRelativeLocaleUrl(lang, 'tags')}>{t('nav.tags')}</a>
+			<a href={getRelativeLocaleUrl(lang, 'about')}>{t('nav.about')}</a>
 		</div>
 		<div class="lang-switcher">
 			<ul>
@@ -54,7 +55,7 @@ if (isPost && route) {
 					
 					return (
 					<li>
-						<a href={`/${abbr}${targetRoute ? `/${targetRoute}` : ''}`} class={lang === abbr ? 'active' : ''}>
+						<a href={getRelativeLocaleUrl(abbr, targetRoute)} class={lang === abbr ? 'active' : ''}>
 							{abbr.toUpperCase()}
 						</a>
 					</li>
@@ -64,6 +65,7 @@ if (isPost && route) {
 		</div>
 	</nav>
 </header>
+
 
 <style>
 	.site-header {

@@ -1,15 +1,17 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { ui } from '../../../i18n/ui';
+import { ui, defaultLang } from '../../../i18n/ui';
 import { useTranslations } from '../../../i18n/utils';
 import type { CollectionEntry } from 'astro:content';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
   
   const paths = allPosts.flatMap((post) => {
-    const [lang, ...slug] = post.id.split('/');
+    const [postLang, ...slug] = post.id.split('/');
+    const lang = postLang === defaultLang ? undefined : postLang;
     const tags = post.data.tags || [];
     
     return tags.map((tag: string) => ({
@@ -19,7 +21,7 @@ export async function getStaticPaths() {
   
   // Deduplicate using params nesting
   const uniquePaths = Array.from(
-    new Map(paths.map(p => [`${p.params.lang}-${p.params.tag}`, p.params])).values()
+    new Map(paths.map(p => [`${p.params.lang || 'default'}-${p.params.tag}`, p.params])).values()
   );
   
   return uniquePaths.map((p) => ({
@@ -28,23 +30,24 @@ export async function getStaticPaths() {
 }
 
 const { lang, tag } = Astro.params;
-const t = useTranslations(lang as keyof typeof ui);
+const currentLang = lang || defaultLang;
+const t = useTranslations(currentLang as keyof typeof ui);
 
 const posts = await getCollection('blog', (post: CollectionEntry<'blog'>) => {
-  return post.id.startsWith(`${lang}/`) && (post.data.tags || []).includes(tag);
+  return post.id.startsWith(`${currentLang}/`) && (post.data.tags || []).includes(tag);
 });
 
 posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const pageTitle = `Zahit | #${tag}`;
-const pageDescription = lang === 'tr' 
+const pageDescription = currentLang === 'tr' 
   ? `"${tag}" etiketine sahip tüm yazılar` 
   : `All posts tagged with "${tag}"`;
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
 	<div class="tag-header">
-		<a href={`/${lang}/tags/`} class="back-link">
+		<a href={getRelativeLocaleUrl(currentLang, 'tags')} class="back-link">
 			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
 			{t('tags.title')}
 		</a>
@@ -56,13 +59,13 @@ const pageDescription = lang === 'tr'
 		{posts.length > 0 ? (
 			<ul>
 				{posts.map((post) => {
-					const slugWithoutLang = post.id.replace(`${lang}/`, '');
+					const slugWithoutLang = post.id.replace(`${currentLang}/`, '');
 					return (
 						<li>
-							<a href={`/${lang}/blog/${slugWithoutLang}/`}>
+							<a href={getRelativeLocaleUrl(currentLang, `blog/${slugWithoutLang}`)}>
 								<span class="title">{post.data.title}</span>
 								<span class="date">
-									{post.data.pubDate.toLocaleDateString(lang, {
+									{post.data.pubDate.toLocaleDateString(currentLang, {
 										year: 'numeric',
 										month: 'long',
 										day: 'numeric',
@@ -75,11 +78,12 @@ const pageDescription = lang === 'tr'
 			</ul>
 		) : (
 			<p class="no-posts">
-				{lang === 'tr' ? 'Bu etikete sahip yazı bulunamadı.' : 'No posts found with this tag.'}
+				{currentLang === 'tr' ? 'Bu etikete sahip yazı bulunamadı.' : 'No posts found with this tag.'}
 			</p>
 		)}
 	</section>
 </BaseLayout>
+
 
 <style>
 	.tag-header {

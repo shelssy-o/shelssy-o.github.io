@@ -1,21 +1,23 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
-import { ui } from '../../i18n/ui';
+import { ui, defaultLang } from '../../i18n/ui';
 import { useTranslations } from '../../i18n/utils';
 import { SITE_CONFIG } from '../../config';
+import { getRelativeLocaleUrl } from 'astro:i18n';
 
 export async function getStaticPaths() {
   return Object.keys(ui).map((lang) => ({
-    params: { lang },
+    params: { lang: lang === defaultLang ? undefined : lang },
   }));
 }
 
 export async function GET(context: any) {
   const { lang } = context.params;
-  const t = useTranslations(lang as any);
+  const currentLang = lang || defaultLang;
+  const t = useTranslations(currentLang as any);
   
   const posts = await getCollection('blog', (post) => {
-    return post.id.startsWith(`${lang}/`);
+    return post.id.startsWith(`${currentLang}/`);
   });
   
   posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -25,7 +27,7 @@ export async function GET(context: any) {
     description: t('home.subtitle') || SITE_CONFIG.description,
     site: context.site || SITE_CONFIG.url,
     items: posts.map((post) => {
-      const slugWithoutLang = post.id.replace(`${lang}/`, '');
+      const slugWithoutLang = post.id.replace(`${currentLang}/`, '');
       const htmlContent = post.rendered?.html;
       const bodyContent = post.body ? `<content:encoded><![CDATA[${post.body}]]></content:encoded>` : '';
       
@@ -33,10 +35,11 @@ export async function GET(context: any) {
         title: post.data.title,
         pubDate: post.data.pubDate,
         description: post.data.description,
-        link: `/${lang}/blog/${slugWithoutLang}/`,
+        link: getRelativeLocaleUrl(currentLang, `blog/${slugWithoutLang}`),
         content: htmlContent,
         customData: !htmlContent ? bodyContent : '',
       };
     }),
   });
 }
+

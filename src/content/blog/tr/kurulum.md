@@ -70,4 +70,5 @@ Tarayıcınızı açıp `http://localhost:4321/` adresine giderek minimalist ve 
 
 Tebrikler, Zahit temanız başarıyla kuruldu ve çalışıyor! Artık yazar biyografinizi özelleştirebilir ve ilk iki dilli blog yazınızı kaleme alabilirsiniz.
 
-Yazı oluşturma ve çoklu dil sistemini öğrenmek için bir sonraki rehberimize göz atın: **[Zahit Teması: İçerik Kullanımı ve Çoklu Dil Yapısı](/tr/blog/kullanim/)**
+Yazı oluşturma ve çoklu dil sistemini öğrenmek için bir sonraki rehberimize göz atın: **[Zahit Teması: İçerik Kullanımı ve Çoklu Dil Yapısı](/blog/kullanim/)**
+
