@@ -107,9 +107,12 @@ video,
 canvas,
 svg,
 iframe {
+    
     max-width: 100%;
     height: auto;
     display: block;
+    object-fit: cover;
+    object-position: center 150%; 
 }
 
 body {
