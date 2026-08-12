@@ -6,7 +6,7 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://zahit.dev',
+  site: 'https://shelssy-o.github.io',
   integrations: [mdx(), icon()],
   markdown: {
     shikiConfig: {
