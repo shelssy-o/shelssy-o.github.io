@@ -18,7 +18,7 @@ export const SITE_CONFIG = {
 
 export const AUTHOR = {
   /** Adınız / Your name */
-  name: 'John Doe',
+  name: 'Shelssy Ortiz',
 
   /** Rolünüz / Your role */
   role: {
