@@ -23,7 +23,7 @@ export const AUTHOR = {
   /** Rolünüz / Your role */
   role: {
     tr: 'Yazılım Geliştirici',
-    en: 'Software Developer',
+    en: 'Estudiante',
   },
 
   /** Kısa biyografiniz / Your short bio */
