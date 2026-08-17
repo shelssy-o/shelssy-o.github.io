@@ -7,7 +7,7 @@
 
 export const SITE_CONFIG = {
   /** Sitenin başlığı / Site title */
-  title: 'Zahit Theme',
+  title: 'Portafolio Base de Datos',
 
   /** Sitenin açıklaması / Site description */
   description: 'A raw, flat minimalist theme built on the philosophy that simplicity is depth.',
@@ -39,7 +39,7 @@ export const AUTHOR = {
 export const SOCIALS = [
   {
     label: 'Mail',
-    href: 'mailto:johndoe@example.com',
+    href: 'mailto:syortiz@unbosque.edu.co',
     icon: 'mdi:email',
   },
   {
