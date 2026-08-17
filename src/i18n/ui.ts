@@ -7,10 +7,10 @@ export const defaultLang = 'tr';
 
 export const ui = {
   tr: {
-    'nav.home': 'Ana Sayfa',
-    'nav.about': 'Hakkında',
-    'nav.archive': 'Arşiv',
-    'nav.tags': 'Etiketler',
+    'nav.home': 'Modelado',
+    'nav.about': 'Normalización',
+    'nav.archive': 'SQL',
+    'nav.tags': 'Proyecto',
     'home.title': 'Sadelik, Eksiklik Değil Derinliktir',
     'home.subtitle': 'Zahit: Dikkat dağıtan unsurlardan arınmış, yazar ve okuyucu arasındaki mesafeyi kaldıran minimal Astro teması.',
     'archive.title': 'Tüm Yazılar',
