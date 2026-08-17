@@ -27,7 +27,14 @@ const bio = AUTHOR.bio[lang as keyof typeof AUTHOR.bio] ?? AUTHOR.bio.en;
     <div class="info">
         <h2>{AUTHOR.name}</h2>
         <span class="role">{role}</span>
-        <a href="https://youtube.com/shorts/znHPtB8Xl5M?si=vNKBsPfZD_w41Iwy">Video</a>
+        <a 
+            href="https://youtu.be/VFLH7Rx0bMo?feature=shared" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="youtube-link">
+            <Icon name="mdi:youtube" class="youtube-icon" />
+            <span>Video</span>
+        </a>
     </div>
 
     <div class="socials">
